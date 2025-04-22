@@ -1,6 +1,7 @@
 package controller;
 
 import DAO.StudentDAO;
+import model.AssignmentModel;
 import model.CourseModel;
 
 import jakarta.servlet.RequestDispatcher;
@@ -16,7 +17,12 @@ import java.util.List;
 @WebServlet("/StudentServlet")
 public class StudentServlet extends HttpServlet {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get student credentials from the form submission
         String studentIdStr = request.getParameter("student_id");
@@ -41,7 +47,7 @@ public class StudentServlet extends HttpServlet {
                 request.setAttribute("courses", courses);
 
                 // Forward to the studentDashboard.jsp page
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/NewFile.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/Dashboard.jsp");
                 dispatcher.forward(request, response);
             } catch (NumberFormatException e) {
                 // Handle invalid student ID format
@@ -52,25 +58,28 @@ public class StudentServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // If the student is already logged in, forward them to the dashboard
-        HttpSession session = request.getSession();
-        Integer studentId = (Integer) session.getAttribute("studentId");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    HttpSession session = request.getSession();
+	    Integer studentId = (Integer) session.getAttribute("studentId");
 
-        if (studentId == null) {
-            response.sendRedirect("login.jsp"); // Redirect to login page if no studentId in session
-        } else {
-            // Fetch courses for the logged-in student
-            StudentDAO studentDAO = new StudentDAO();
-            List<CourseModel> courses = studentDAO.getAllCourses(studentId);
+	    if (studentId == null) {
+	        response.sendRedirect("login.jsp");
+	        return;
+	    }
 
-            // Set the courses list as a request attribute to be used in JSP
-            request.setAttribute("courses", courses);
+	    // Fetch courses and assignments
+	    StudentDAO studentDAO = new StudentDAO();
+	    System.out.println("meme");
+	    List<CourseModel> courses = studentDAO.getAllCourses(studentId);
+	    System.out.println("meme");
+	    List<AssignmentModel> assignments = studentDAO.getAssignmentsByStudentId(studentId);
 
-            // Forward to the studentDashboard.jsp page
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/NewFile.jsp");
-            dispatcher.forward(request, response);
-        }
-    }
+	    // Set attributes for courses and assignments
+	    request.setAttribute("courses", courses);
+	    request.setAttribute("assignments", assignments);
+
+	    // Forward to dashboard JSP
+	    request.getRequestDispatcher("/WEB-INF/Dashboard.jsp").forward(request, response);
+	}
+
 }
