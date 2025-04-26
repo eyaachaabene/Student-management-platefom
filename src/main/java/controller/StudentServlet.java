@@ -22,40 +22,21 @@ public class StudentServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get student credentials from the form submission
-        String studentIdStr = request.getParameter("student_id");
-        String password = request.getParameter("password"); // You can hash and compare passwords in a real application
+	
+    // Function to load student dashboard by studentId
+    public void loadStudentDashboard(int studentId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Fetch the courses and assignments for the student
+        StudentDAO studentDAO = new StudentDAO();
+        List<CourseModel> courses = studentDAO.getAllCourses(studentId);
+        List<AssignmentModel> assignments = studentDAO.getAssignmentsByStudentId(studentId);
 
-        if (studentIdStr != null && password != null) {
-            try {
-                int studentId = Integer.parseInt(studentIdStr);
+        // Set courses and assignments as request attributes
+        request.setAttribute("courses", courses);
+        request.setAttribute("assignments", assignments);
 
-                // Validate the student (for now, we are skipping the password validation)
-                // You can add your password validation logic here
-
-                // If student is valid, fetch the courses for this student
-                StudentDAO studentDAO = new StudentDAO();
-                List<CourseModel> courses = studentDAO.getAllCourses(studentId);
-
-                // Store the student ID in session for further requests
-                HttpSession session = request.getSession();
-                session.setAttribute("studentId", studentId);
-
-                // Set the courses list as a request attribute to be used in JSP
-                request.setAttribute("courses", courses);
-
-                // Forward to the studentDashboard.jsp page
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/Dashboard.jsp");
-                dispatcher.forward(request, response);
-            } catch (NumberFormatException e) {
-                // Handle invalid student ID format
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid student ID.");
-            }
-        } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Student ID and password must be provided.");
-        }
+        // Forward to the student dashboard JSP
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
+        dispatcher.forward(request, response);
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

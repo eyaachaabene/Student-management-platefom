@@ -10,7 +10,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO {
+    // Sign Up (Insert Student)
 	
+    public boolean signUp(String username, String password, String fullName, String email, Date dob) {
+        try {
+        	Connection conn = DatabaseConnection.getConnection();
+            String query = "INSERT INTO students (username, password, full_name, email, date_of_birth) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, password); // You should hash the password before storing it
+            statement.setString(3, fullName);
+            statement.setString(4, email);
+            statement.setDate(5, dob);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Login (Select Student)
+    public boolean login(String username, String password) {
+        try {
+        	Connection conn = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM students WHERE username = ? AND password = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next(); // If a student exists, it returns true
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 	 public void submitAssignment(int assignmentId, String filePath) {
 	        String query = "UPDATE student_assignments SET submission_pdf = ? WHERE assignment_id = ?";
 	        try (Connection connection = DatabaseConnection.getConnection();

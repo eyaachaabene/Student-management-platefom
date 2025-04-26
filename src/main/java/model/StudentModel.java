@@ -1,30 +1,23 @@
 package model;
 
-public class StudentModel {
-    private int studentId;
+public class StudentModel extends User{
+
     private String name;
     private String dateOfBirth;
     private String address;
     private String level;
 
     // Constructor
-    public StudentModel(int studentId, String name, String dateOfBirth, String address, String level) {
-        this.studentId = studentId;
+    public StudentModel( int id,String email, String password,String name, String dateOfBirth, String address, String level) {
+    	super(id, email, password, address, "Student");
+        
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.level = level;
     }
 
-    // Getters and setters
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
-
+   
     public String getName() {
         return name;
     }
