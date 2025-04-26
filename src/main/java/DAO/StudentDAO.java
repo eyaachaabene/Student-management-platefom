@@ -12,39 +12,27 @@ import java.util.List;
 public class StudentDAO {
     // Sign Up (Insert Student)
 	
-    public boolean signUp(String username, String password, String fullName, String email, Date dob) {
-        try {
-        	Connection conn = DatabaseConnection.getConnection();
-            String query = "INSERT INTO students (username, password, full_name, email, date_of_birth) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, username);
-            statement.setString(2, password); // You should hash the password before storing it
-            statement.setString(3, fullName);
-            statement.setString(4, email);
-            statement.setDate(5, dob);
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+	public boolean insertStudent(int userId, String username,   Date dob, String level) {
+	    String query = "INSERT INTO students (student_id, username, date_of_birth, level) VALUES (?, ?, ?, ?)";
 
-    // Login (Select Student)
-    public boolean login(String username, String password) {
-        try {
-        	Connection conn = DatabaseConnection.getConnection();
-            String query = "SELECT * FROM students WHERE username = ? AND password = ?";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, username);
-            statement.setString(2, password);
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet.next(); // If a student exists, it returns true
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	        
+	        stmt.setInt(1, userId);  // userId is used as student_id (foreign key reference)
+	        stmt.setString(2, username);  // username
+	        stmt.setDate(3, dob);  // date_of_birth
+	        stmt.setString(4, level);  // level (Freshman, Sophomore, etc.)
+
+	        int rowsAffected = stmt.executeUpdate();
+	        return rowsAffected > 0;  // Return true if the student was inserted successfully
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;  // Return false if there was an error
+	}
+
+
+   
 
 	 public void submitAssignment(int assignmentId, String filePath) {
 	        String query = "UPDATE student_assignments SET submission_pdf = ? WHERE assignment_id = ?";

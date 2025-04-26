@@ -12,28 +12,28 @@ public class UserDAO {
     }
 
     // Insert User (Sign Up)
-    public boolean signUp(User user) {
-        try {Connection conn = DatabaseConnection.getConnection();
-            String query = "INSERT INTO users (email, password, address, role) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, user.getEmail());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getAddress());
-            statement.setString(4, user.getRole());
-
-            int rowsAffected = statement.executeUpdate();
-            if (rowsAffected > 0) {
-                ResultSet rs = statement.getGeneratedKeys();
-                if (rs.next()) {
-                    user.setId(rs.getInt(1)); // Set the generated ID
-                    return true;
+    public int signUp(String email, String password, String role) {
+        String query = "INSERT INTO users (email, password, role) VALUES (?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            
+            stmt.setString(1, email);
+            stmt.setString(2, password);  // Store the password as-is (plain text)
+            stmt.setString(3, role);
+            stmt.executeUpdate();
+            
+            // Get the generated userId (primary key)
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);  // Return the userId
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return -1;  // Return -1 if insertion failed
     }
+
 
     // Select User (Login)
     public User login(String email, String password) {
