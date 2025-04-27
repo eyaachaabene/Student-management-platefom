@@ -1,6 +1,7 @@
 package DAO;
 
 import model.StudentModel;
+import model.SubjectModel;
 import model.TeacherModel;
 import model.AssignmentModel;
 import model.CourseModel;
@@ -45,31 +46,30 @@ public class StudentDAO {
 	            e.printStackTrace();
 	        }
 	    }
-    // Method to get all courses for a student
-    public List<CourseModel> getAllCourses(int studentId) {
-        List<CourseModel> courses = new ArrayList<>();
-        String query = "SELECT c.course_id, c.course_name, c.course_description, c.pdf_path " +
-                       "FROM courses c " +
-                       "JOIN student_courses sc ON c.course_id = sc.course_id " +
-                       "WHERE sc.student_id = ?";
-        
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-        	
-            stmt.setInt(1, studentId);
-            ResultSet resultSet = stmt.executeQuery();
-            while (resultSet.next()) {
-                courses.add(new CourseModel(
-                        resultSet.getInt("course_id"),
-                        resultSet.getString("course_name"),
-                        resultSet.getString("pdf_path")
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return courses;
-    }
+	 public List<SubjectModel> getSubjectsByStudentId(int studentId) {
+		    List<SubjectModel> subjects = new ArrayList<>();
+		    String query = "SELECT s.subject_id, s.subject_name " +
+		                   "FROM subject s " +
+		                   "JOIN student_subjects ss ON s.subject_id = ss.subject_id " +
+		                   "WHERE ss.student_id = ?";
+
+		    try (Connection conn = DatabaseConnection.getConnection();
+		         PreparedStatement stmt = conn.prepareStatement(query)) {
+		        stmt.setInt(1, studentId);
+
+		        ResultSet resultSet = stmt.executeQuery();
+		        while (resultSet.next()) {
+		            subjects.add(new SubjectModel(
+		                    resultSet.getInt("subject_id"),
+		                    resultSet.getString("subject_name")
+		            ));
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return subjects;
+		}
+
 
     // Method to get a specific course's PDF path
     public String getCoursePdfPath(int courseId) {

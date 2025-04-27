@@ -3,10 +3,12 @@ package model;
 public class CourseModel {
     private int courseId;
     private String courseName;
+    private String coursedescription;
     private String pdfPath;
 
     // Constructor
-    public CourseModel(int courseId, String courseName, String pdfPath) {
+    public CourseModel(int courseId,String coursedescription,String courseName, String pdfPath) {
+    	this.coursedescription=coursedescription;
         this.courseId = courseId;
         this.courseName = courseName;
         this.pdfPath = pdfPath;
@@ -36,4 +38,12 @@ public class CourseModel {
     public void setPdfPath(String pdfPath) {
         this.pdfPath = pdfPath;
     }
+
+	public String getCoursedescription() {
+		return coursedescription;
+	}
+
+	public void setCoursedescription(String coursedescription) {
+		this.coursedescription = coursedescription;
+	}
 }
