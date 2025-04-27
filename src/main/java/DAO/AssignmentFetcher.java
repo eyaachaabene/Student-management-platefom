@@ -1,4 +1,4 @@
-package model;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,12 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.AssignmentModel;
+import model.TeacherModel;
 public class AssignmentFetcher {
-    // JDBC URL, username, and password of MySQL server
-	 private static final String URL = "jdbc:mysql://localhost:3306/projetjee"; // Replace 'your_db_name' with your actual DB name
-	    private static final String USER = "root"; // Your MySQL username
-	    private static final String PASSWORD = "12345"; // Your MySQL password
-
+ 
     // Query to fetch assignments for a specific student
     private static final String QUERY = "SELECT a.assignment_id, a.subject, a.description, a.deadline, a.teacher_id " +
                                         "FROM student_assignments sa " +
@@ -43,7 +41,7 @@ public class AssignmentFetcher {
     public static List<AssignmentModel> getAssignmentsByStudentId(int studentId) {
         List<AssignmentModel> assignments = new ArrayList<>();
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(QUERY)) {
 
             // Set the student ID parameter
@@ -54,6 +52,7 @@ public class AssignmentFetcher {
                 while (rs.next()) {
                     AssignmentModel assignment = new AssignmentModel();
                     assignment.setAssignmentId(rs.getInt("assignment_id"));
+                    assignment.setCourseId(rs.getInt("course_id"));
                     assignment.setSubject(rs.getString("subject"));
                     assignment.setDescription(rs.getString("description"));
                     assignment.setDeadline(rs.getString("deadline"));
@@ -78,7 +77,7 @@ public class AssignmentFetcher {
         String teacherName = "Unknown";  // Default teacher name if not found
         String query = "SELECT name FROM teachers WHERE teacher_id = ?";
 
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setInt(1, teacherId);

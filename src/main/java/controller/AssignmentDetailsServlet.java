@@ -19,7 +19,10 @@ public class AssignmentDetailsServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get assignmentId from the request parameter
+	
         int assignmentId = Integer.parseInt(request.getParameter("assignmentId"));
+        int studentId = Integer.parseInt(request.getParameter("studentId"));
+	    System.out.println(studentId);
         AssignmentModel assignmentModel = new AssignmentModel();
         // Fetch the assignment details using the AssignmentDAO or StudentDAO
         AssignmentModel assignment=null;
@@ -31,8 +34,8 @@ public class AssignmentDetailsServlet extends HttpServlet {
 
         // Set assignment object as request attribute to pass to the JSP
         request.setAttribute("assignment", assignment);
-
+        request.setAttribute("studentID", studentId);
         // Forward the request to the assignment details JSP
-        request.getRequestDispatcher("/WEB-INF/assignmentDetails.jsp").forward(request, response);
+        request.getRequestDispatcher("AssignmentDetails.jsp").forward(request, response);
     }
 }

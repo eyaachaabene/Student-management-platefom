@@ -104,7 +104,7 @@
 <body>
     <div class="container">
         <div class="login-box">
-            <!-- Logo Spot -->
+      
             <div style="display: flex; justify-content: center; margin-bottom: 20px;">
                 <img 
                     src="https://i.ibb.co/RTscByxs/Black-Illustrated-School-Logo-removebg-preview.png" 

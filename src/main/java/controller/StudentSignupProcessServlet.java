@@ -59,6 +59,5 @@ public class StudentSignupProcessServlet extends HttpServlet {
 	    }
 	
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    // Since signup should only happen via POST, redirect to the signup page
     response.sendRedirect("signup.jsp");
 }}

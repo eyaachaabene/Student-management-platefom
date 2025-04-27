@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import DAO.DatabaseConnection;
+import DAO.UserDAO;
 @WebServlet("/signupProcess")
 public class SignupProcessServlet extends HttpServlet {
     /**

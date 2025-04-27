@@ -1,8 +1,7 @@
-package controller;
+package DAO;
 
 import java.sql.*;
 
-import DAO.DatabaseConnection;
 import model.User;
 public class UserDAO {
     

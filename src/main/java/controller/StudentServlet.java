@@ -23,7 +23,6 @@ public class StudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
-    // Function to load student dashboard by studentId
     public void loadStudentDashboard(int studentId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Fetch the courses and assignments for the student
         StudentDAO studentDAO = new StudentDAO();
@@ -33,7 +32,7 @@ public class StudentServlet extends HttpServlet {
         // Set courses and assignments as request attributes
         request.setAttribute("courses", courses);
         request.setAttribute("assignments", assignments);
-
+        request.setAttribute("studentID",studentId);
         // Forward to the student dashboard JSP
         RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
         dispatcher.forward(request, response);
@@ -58,9 +57,9 @@ public class StudentServlet extends HttpServlet {
 	    // Set attributes for courses and assignments
 	    request.setAttribute("courses", courses);
 	    request.setAttribute("assignments", assignments);
-
+	    request.setAttribute("studentID",studentId);
 	    // Forward to dashboard JSP
-	    request.getRequestDispatcher("/WEB-INF/Dashboard.jsp").forward(request, response);
+	    request.getRequestDispatcher("Dashboard.jsp").forward(request, response);
 	}
 
 }
