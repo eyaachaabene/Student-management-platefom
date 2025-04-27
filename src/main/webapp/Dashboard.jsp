@@ -34,13 +34,14 @@
             <td><%= assignment.getDeadline() %></td>
             <td><%= assignment.getTeacher().getName() %></td>
             <td>
-                <a href="AssignmentDetailsServlet?assignmentId=<%= assignment.getAssignmentId() %>">View Details</a>
+
+<a href="AssignmentDetailsServlet?assignmentId=<%= assignment.getAssignmentId() %>&studentId=<%= request.getAttribute("studentID") %>">View Details</a>
             </td>
         </tr>
-        <% 
+        <%   
                 }
             } else {
-        %>
+    %>
         <tr>
             <td colspan="4">No assignments found for this student.</td>
         </tr>
@@ -63,6 +64,7 @@
         %>
         <tr>
             <td><%= course.getCourseName() %></td>
+           
             <td>
                 <!-- Link to view the PDF -->
                 <a href="ViewCoursePdf?courseId=<%= course.getCourseId() %>">View PDF</a>

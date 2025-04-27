@@ -6,13 +6,15 @@ import DAO.DatabaseConnection;
 
 public class AssignmentModel {
     private int assignmentId;
+    private int courseId;
     private String subject;
 	private String description;
     private String deadline;
     private TeacherModel teacher;
-	public AssignmentModel(int assignmentId, String subject, String description, String deadline,
+	public AssignmentModel(int assignmentId,int courseId, String subject, String description, String deadline,
 			TeacherModel teacher) {
 		super();
+		this.setCourseId(courseId);
 		this.assignmentId = assignmentId;
 		this.subject = subject;
 		this.description = description;
@@ -89,6 +91,7 @@ public class AssignmentModel {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 this.assignmentId = rs.getInt("assignment_id");
+                this.courseId = rs.getInt("course_id");
                 this.subject = rs.getString("subject");
                 this.description = rs.getString("description");
                 this.deadline = rs.getString("deadline");
@@ -103,4 +106,18 @@ public class AssignmentModel {
         }
         return this;
     }
+
+
+
+
+	public int getCourseId() {
+		return courseId;
+	}
+
+
+
+
+	public void setCourseId(int courseId) {
+		this.courseId = courseId;
+	}
 }
