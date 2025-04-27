@@ -2,7 +2,7 @@ package DAO;
 
 import model.StudentModel;
 import model.SubjectModel;
-import model.TeacherModel;
+
 import model.AssignmentModel;
 import model.CourseModel;
 
@@ -140,7 +140,7 @@ public class StudentDAO {
     public List<AssignmentModel> getAssignmentsByStudentId(int studentId) {
         List<AssignmentModel> assignments = new ArrayList<>();
         System.out.println("eya");
-        String query = "SELECT a.assignment_id, a.subject, a.description, a.deadline, a.teacher_id " +
+        String query = "SELECT a.assignment_id, a.Title, a.description, a.deadline " +
                        "FROM assignments a " +
                        "JOIN student_assignments sa ON a.assignment_id = sa.assignment_id " +
                        "WHERE sa.student_id = ?";
@@ -158,17 +158,11 @@ public class StudentDAO {
             while (resultSet.next()) {
                 AssignmentModel assignment = new AssignmentModel();
                 assignment.setAssignmentId(resultSet.getInt("assignment_id"));
-                assignment.setSubject(resultSet.getString("subject"));
+                assignment.setTitle(resultSet.getString("title"));
                 assignment.setDescription(resultSet.getString("description"));
                 assignment.setDeadline(resultSet.getString("deadline"));
 
-                // Fetch teacher information using the teacher_id
-                TeacherModel teacher = new TeacherModel();
-                teacher.setTeacherId(resultSet.getInt("teacher_id"));
-                teacher.setName(getTeacherNameById(teacher.getTeacherId())); // Get teacher name by teacher_id
-                assignment.setTeacher(teacher);
-
-                // Add the assignment to the list
+               
                 assignments.add(assignment);
             }
         } catch (SQLException e) {
@@ -178,25 +172,5 @@ public class StudentDAO {
         return assignments;
     }
 
- // Method to get the teacher's name by teacher_id
-    public String getTeacherNameById(int teacherId) {
-        String teacherName = "Unknown";  // Default name if no teacher is found
-        String query = "SELECT name FROM teachers WHERE teacher_id = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setInt(1, teacherId); // Set the teacher_id parameter
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                teacherName = rs.getString("name");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return teacherName;
-    }
-
+ 
 }

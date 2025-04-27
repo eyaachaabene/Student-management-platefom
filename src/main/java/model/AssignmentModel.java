@@ -10,75 +10,119 @@ public class AssignmentModel {
     private String title;
 	private String description;
     private String deadline;
-    private TeacherModel teacher;
-	public AssignmentModel(int assignmentId,int courseId, String subject, String description, String deadline,
-			TeacherModel teacher) {
-		super();
-		this.setCourseId(courseId);
-		this.assignmentId = assignmentId;
-		this.title = title;
-		this.description = description;
-		this.deadline = deadline;
-		this.teacher = teacher;
-	}
+   
 	
 
 
 
-    public AssignmentModel() {
-		super();
+	@Override
+	public String toString() {
+		return "AssignmentModel [assignmentId=" + assignmentId + ", courseId=" + courseId + ", title=" + title
+				+ ", description=" + description + ", deadline=" + deadline + "]";
 	}
 
 
 
 
-	// Getters and setters
-    public int getAssignmentId() {
+
+	public AssignmentModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+
+
+	public AssignmentModel(int assignmentId, int courseId, String title, String description, String deadline) {
+		super();
+		this.assignmentId = assignmentId;
+		this.courseId = courseId;
+		this.title = title;
+		this.description = description;
+		this.deadline = deadline;
+	}
+
+
+
+
+
+	public int getAssignmentId() {
 		return assignmentId;
 	}
+
+
+
+
 
 	public void setAssignmentId(int assignmentId) {
 		this.assignmentId = assignmentId;
 	}
 
+
+
+
+
+	public int getCourseId() {
+		return courseId;
+	}
+
+
+
+
+
+	public void setCourseId(int courseId) {
+		this.courseId = courseId;
+	}
+
+
+
+
+
 	public String getTitle() {
 		return title;
 	}
 
-	public void setSubject(String subject) {
-		this.title = subject;
+
+
+
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
+
+
+
+
 
 	public String getDescription() {
 		return description;
 	}
 
+
+
+
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+
+
+
 
 	public String getDeadline() {
 		return deadline;
 	}
 
+
+
+
+
 	public void setDeadline(String deadline) {
 		this.deadline = deadline;
 	}
 
-	public TeacherModel getTeacher() {
-		return teacher;
-	}
-
-	public void setTeacher(TeacherModel teacher) {
-		this.teacher = teacher;
-	}
-
-
-    @Override
-	public String toString() {
-		return "AssignmentModel [assignmentId=" + assignmentId + ", subject=" + title + ", description=" + description
-				+ ", deadline=" + deadline + ", teacher=" + teacher + "]";
-	}
 
 
 
@@ -92,14 +136,11 @@ public class AssignmentModel {
             if (rs.next()) {
                 this.assignmentId = rs.getInt("assignment_id");
                 this.courseId = rs.getInt("course_id");
-                this.title = rs.getString("subject");
+                this.title = rs.getString("title");
                 this.description = rs.getString("description");
                 this.deadline = rs.getString("deadline");
 
-                // Fetch teacher information
-                TeacherModel teacher = new TeacherModel();
-                teacher.setTeacherId(rs.getInt("teacher_id"));
-                this.teacher = teacher;
+               
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,15 +150,4 @@ public class AssignmentModel {
 
 
 
-
-	public int getCourseId() {
-		return courseId;
-	}
-
-
-
-
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
-	}
 }

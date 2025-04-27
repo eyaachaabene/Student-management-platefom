@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="model.CourseModel" %>
-<%@ page import="model.AssignmentModel" %>
+<%@ page import="model.*" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,9 +17,9 @@
 <table>
     <thead>
         <tr>
-            <th>Subject</th>
+            <th>Title</th>
             <th>Deadline</th>
-            <th>Teacher</th>
+            
             <th>Action</th>
         </tr>
     </thead>
@@ -30,9 +30,10 @@
                 for (AssignmentModel assignment : assignments) {
         %>
         <tr>
-            <td><%= assignment.getSubject() %></td>
+           
             <td><%= assignment.getDeadline() %></td>
-            <td><%= assignment.getTeacher().getName() %></td>
+            <td><%= assignment.getTitle() %></td >
+       
             <td>
 
 <a href="AssignmentDetailsServlet?assignmentId=<%= assignment.getAssignmentId() %>&studentId=<%= request.getAttribute("studentID") %>">View Details</a>
@@ -48,9 +49,39 @@
         <% } %>
     </tbody>
 </table>
+<h2>Your Subjects</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% 
+                List<SubjectModel> subjects = (List<SubjectModel>) request.getAttribute("subjects");
+                if (subjects != null && !subjects.isEmpty()) {
+                    for (SubjectModel subject : subjects) {
+            %>
+            <tr>
+                <td><%= subject.getSubjectName() %></td>
+                <td>
+                    <!-- Link to view the courses related to this subject -->
+                    <a href="SubjectCoursesServlet?subjectId=<%= subject.getSubjectId() %>&studentId=<%= request.getAttribute("studentID") %>">View Courses</a>
+                </td>
+            </tr>
+            <%   
+                    }
+                } else {
+            %>
+            <tr>
+                <td colspan="2">No subjects found for this student.</td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
 
-
-    <h2>Courses</h2>
+   <h2>Courses</h2>
     <table border="1">
         <tr>
             <th>Course Name</th>
