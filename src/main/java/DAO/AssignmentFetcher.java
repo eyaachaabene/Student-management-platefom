@@ -29,7 +29,7 @@ public class AssignmentFetcher {
         } else {
             for (AssignmentModel assignment : assignments) {
                 System.out.println("Assignment ID: " + assignment.getAssignmentId());
-                System.out.println("Subject: " + assignment.getSubject());
+                System.out.println("Subject: " + assignment.getTitle());
                 System.out.println("Description: " + assignment.getDescription());
                 System.out.println("Deadline: " + assignment.getDeadline());
                 System.out.println("Teacher: " + assignment.getTeacher().getName());
