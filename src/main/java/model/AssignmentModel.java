@@ -7,7 +7,7 @@ import DAO.DatabaseConnection;
 public class AssignmentModel {
     private int assignmentId;
     private int courseId;
-    private String subject;
+    private String title;
 	private String description;
     private String deadline;
     private TeacherModel teacher;
@@ -16,7 +16,7 @@ public class AssignmentModel {
 		super();
 		this.setCourseId(courseId);
 		this.assignmentId = assignmentId;
-		this.subject = subject;
+		this.title = title;
 		this.description = description;
 		this.deadline = deadline;
 		this.teacher = teacher;
@@ -41,12 +41,12 @@ public class AssignmentModel {
 		this.assignmentId = assignmentId;
 	}
 
-	public String getSubject() {
-		return subject;
+	public String getTitle() {
+		return title;
 	}
 
 	public void setSubject(String subject) {
-		this.subject = subject;
+		this.title = subject;
 	}
 
 	public String getDescription() {
@@ -76,7 +76,7 @@ public class AssignmentModel {
 
     @Override
 	public String toString() {
-		return "AssignmentModel [assignmentId=" + assignmentId + ", subject=" + subject + ", description=" + description
+		return "AssignmentModel [assignmentId=" + assignmentId + ", subject=" + title + ", description=" + description
 				+ ", deadline=" + deadline + ", teacher=" + teacher + "]";
 	}
 
@@ -92,7 +92,7 @@ public class AssignmentModel {
             if (rs.next()) {
                 this.assignmentId = rs.getInt("assignment_id");
                 this.courseId = rs.getInt("course_id");
-                this.subject = rs.getString("subject");
+                this.title = rs.getString("subject");
                 this.description = rs.getString("description");
                 this.deadline = rs.getString("deadline");
 
