@@ -1,6 +1,5 @@
 package controller;
 
-<<<<<<< Updated upstream
 import java.io.IOException;
 import java.util.List;
 
@@ -10,14 +9,11 @@ import model.TeacherModel;
 import model.SubjectModel;
 
 import jakarta.servlet.RequestDispatcher;
-=======
->>>>>>> Stashed changes
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-<<<<<<< Updated upstream
 
 @WebServlet("/TeacherServlet")
 public class TeacherServlet extends HttpServlet {
@@ -116,44 +112,3 @@ public class TeacherServlet extends HttpServlet {
         response.getWriter().println("Mark attendance for a subject (to be implemented)");
     }
 }
-=======
-import java.io.IOException;
-
-/**
- * Servlet implementation class TeacherServlet
- */
-@WebServlet("/TeacherServlet")
-public class TeacherServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TeacherServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
-	public void loadTeacherDashboard(int userId, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-}
->>>>>>> Stashed changes
