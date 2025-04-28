@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.CourseModel" %>
 <%@ page import="model.*" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +33,7 @@
         <tr>
            
             <td><%= assignment.getDeadline() %></td>
-            <td><%= assignment.getTitle() %></td >
+            <td><%= assignment.getCourseId() %></td >
        
             <td>
 
