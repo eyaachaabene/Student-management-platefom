@@ -43,6 +43,7 @@ public class LoginServlet extends HttpServlet {
                 // Handle teacher dashboard redirection
                 TeacherServlet teacherServlet = new TeacherServlet();
                 teacherServlet.loadTeacherDashboard(userId, request, response);
+ 
             } else {
                 response.sendRedirect("error.jsp"); // Handle invalid role
             }

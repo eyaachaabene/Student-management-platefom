@@ -10,7 +10,21 @@ public class AssignmentModel {
     private String title;
 	private String description;
     private String deadline;
+<<<<<<< Updated upstream
    
+=======
+    private TeacherModel teacher;
+	public AssignmentModel(int assignmentId,int courseId, String title, String description, String deadline,
+			TeacherModel teacher) {
+		super();
+		this.setCourseId(courseId);
+		this.assignmentId = assignmentId;
+		this.title = title;
+		this.description = description;
+		this.deadline = deadline;
+		this.teacher = teacher;
+	}
+>>>>>>> Stashed changes
 	
 
 
@@ -83,10 +97,13 @@ public class AssignmentModel {
 		return title;
 	}
 
+<<<<<<< Updated upstream
 
 
 
 
+=======
+>>>>>>> Stashed changes
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -123,6 +140,23 @@ public class AssignmentModel {
 		this.deadline = deadline;
 	}
 
+<<<<<<< Updated upstream
+=======
+	public TeacherModel getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(TeacherModel teacher) {
+		this.teacher = teacher;
+	}
+
+
+    @Override
+	public String toString() {
+		return "AssignmentModel [assignmentId=" + assignmentId + ", title=" + title + ", description=" + description
+				+ ", deadline=" + deadline + ", teacher=" + teacher + "]";
+	}
+>>>>>>> Stashed changes
 
 
 
