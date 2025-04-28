@@ -19,15 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class TeacherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private TeacherDAO teacherDAO;
-    private SubjectDAO subjectDAO;
 
-    @Override
-    public void init() {
-        teacherDAO = new TeacherDAO();
-        subjectDAO = new SubjectDAO();
-        System.out.println("TeacherServlet initialized");
-    }
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -78,8 +71,10 @@ public class TeacherServlet extends HttpServlet {
         doGet(request, response); // Delegate to doGet for simplicity
     }
 
-    void loadTeacherDashboard(int userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void loadTeacherDashboard(int userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Loading teacher dashboard for userId: " + userId);
+         TeacherDAO teacherDAO=new TeacherDAO();
+         SubjectDAO subjectDAO = new SubjectDAO();
         TeacherModel teacher = teacherDAO.getTeacherById(userId);
         List<SubjectModel> subjects = subjectDAO.getSubjectsByTeacherId(userId);
 
@@ -96,7 +91,8 @@ public class TeacherServlet extends HttpServlet {
     }
 
     private void viewSubjects(int userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<SubjectModel> subjects = subjectDAO.getSubjectsByTeacherId(userId);
+    	SubjectDAO subjectDAO = new SubjectDAO();
+    	List<SubjectModel> subjects = subjectDAO.getSubjectsByTeacherId(userId);
         request.setAttribute("subjects", subjects);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/teacherSubjects.jsp");
         dispatcher.forward(request, response);

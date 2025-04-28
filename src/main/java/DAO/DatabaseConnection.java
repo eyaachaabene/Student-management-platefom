@@ -9,7 +9,7 @@ public class DatabaseConnection {
 	   // JDBC URL for MySQL running locally
 	private static final String URL = "jdbc:mysql://localhost:3306/projetjee?useSSL=false&serverTimezone=UTC";     // Bypass MySQL 8+ auth issues
     private static final String USER = "root"; // Your MySQL username
-    private static final String PASSWORD = "112233"; // Your MySQL password
+    private static final String PASSWORD = "12345"; // Your MySQL password
 
     // Method to get a connection to the database
     public static Connection getConnection() throws SQLException {

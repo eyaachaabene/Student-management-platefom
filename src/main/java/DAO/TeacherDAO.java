@@ -6,8 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherDAO {
+	
 
-    public boolean insertTeacher(int userId, String name, String department) {
+    public TeacherDAO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public boolean insertTeacher(int userId, String name, String department) {
         String query = "INSERT INTO teachers (teacher_id, name, department) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -63,7 +69,7 @@ public class TeacherDAO {
     }
 
     public TeacherModel getTeacherById(int teacherId) {
-        TeacherModel teacher = null;
+        TeacherModel teacher = new TeacherModel();
         String query = "SELECT * FROM teachers WHERE teacher_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -73,7 +79,7 @@ public class TeacherDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                teacher = new TeacherModel();
+                
                 teacher.setTeacherId(rs.getInt("teacher_id"));
                 teacher.setName(rs.getString("name"));
                 teacher.setDepartment(rs.getString("department"));

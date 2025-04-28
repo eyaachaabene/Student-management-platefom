@@ -34,25 +34,23 @@ public class LoginServlet extends HttpServlet {
             // Fetch user role (optional, you can fetch role here to direct to the appropriate dashboard)
             User user = userDAO.login(email, password);
             String role = user.getRole();
-
+            
             if ("student".equals(role)) {
                 // Redirect to the student dashboard
                 StudentServlet studentServlet = new StudentServlet();
+                
                 studentServlet.loadStudentDashboard(userId, request, response);
             } else if ("teacher".equals(role)) {
                 // Handle teacher dashboard redirection
                 TeacherServlet teacherServlet = new TeacherServlet();
+
                 teacherServlet.loadTeacherDashboard(userId, request, response);
  
+
             } else {
                 response.sendRedirect("error.jsp"); // Handle invalid role
-            }
-        } else {
-            // If no user is found, show an error message
-            request.setAttribute("errorMessage", "Invalid email or password.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-            dispatcher.forward(request, response);
-        }
+            }}
+        
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Forward to login page if GET request is made

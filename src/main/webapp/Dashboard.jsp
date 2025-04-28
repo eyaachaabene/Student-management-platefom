@@ -31,10 +31,9 @@
                 for (AssignmentModel assignment : assignments) {
         %>
         <tr>
-           
+              <td><%= assignment.getTitle() %></td >
             <td><%= assignment.getDeadline() %></td>
-            <td><%= assignment.getCourseId() %></td >
-       
+
             <td>
 
 <a href="AssignmentDetailsServlet?assignmentId=<%= assignment.getAssignmentId() %>&studentId=<%= request.getAttribute("studentID") %>">View Details</a>
