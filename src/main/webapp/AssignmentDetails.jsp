@@ -9,9 +9,8 @@
 
 <h1>Assignment Details</h1>
 
-<p><strong>Subject:</strong> <%= assignment.getSubject() %></p>
+<p><strong>Subject:</strong> <%= assignment.getTitle() %></p>
 <p><strong>Description:</strong> <%= assignment.getDescription() %></p>
-<p><strong>Teacher:</strong> <%= assignment.getTeacher().getName() %></p>
 <p><strong>Deadline:</strong> <%= assignment.getDeadline() %></p>
 
 <h3>Submit Your Assignment</h3>

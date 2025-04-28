@@ -1,6 +1,5 @@
 package controller;
 
-<<<<<<< Updated upstream
 import java.io.IOException;
 import java.util.List;
 
@@ -10,28 +9,18 @@ import model.TeacherModel;
 import model.SubjectModel;
 
 import jakarta.servlet.RequestDispatcher;
-=======
->>>>>>> Stashed changes
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-<<<<<<< Updated upstream
 
 @WebServlet("/TeacherServlet")
 public class TeacherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private TeacherDAO teacherDAO;
-    private SubjectDAO subjectDAO;
 
-    @Override
-    public void init() {
-        teacherDAO = new TeacherDAO();
-        subjectDAO = new SubjectDAO();
-        System.out.println("TeacherServlet initialized");
-    }
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -82,8 +71,10 @@ public class TeacherServlet extends HttpServlet {
         doGet(request, response); // Delegate to doGet for simplicity
     }
 
-    void loadTeacherDashboard(int userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void loadTeacherDashboard(int userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Loading teacher dashboard for userId: " + userId);
+         TeacherDAO teacherDAO=new TeacherDAO();
+         SubjectDAO subjectDAO = new SubjectDAO();
         TeacherModel teacher = teacherDAO.getTeacherById(userId);
         List<SubjectModel> subjects = subjectDAO.getSubjectsByTeacherId(userId);
 
@@ -100,7 +91,8 @@ public class TeacherServlet extends HttpServlet {
     }
 
     private void viewSubjects(int userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<SubjectModel> subjects = subjectDAO.getSubjectsByTeacherId(userId);
+    	SubjectDAO subjectDAO = new SubjectDAO();
+    	List<SubjectModel> subjects = subjectDAO.getSubjectsByTeacherId(userId);
         request.setAttribute("subjects", subjects);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/teacherSubjects.jsp");
         dispatcher.forward(request, response);
@@ -116,44 +108,3 @@ public class TeacherServlet extends HttpServlet {
         response.getWriter().println("Mark attendance for a subject (to be implemented)");
     }
 }
-=======
-import java.io.IOException;
-
-/**
- * Servlet implementation class TeacherServlet
- */
-@WebServlet("/TeacherServlet")
-public class TeacherServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TeacherServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
-	public void loadTeacherDashboard(int userId, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-}
->>>>>>> Stashed changes
