@@ -34,4 +34,26 @@ public class CourseDAO {
 
         return courses;
     }
+	
+	public String getCourseNameById(int courseId) {
+	    String courseName = null; // Initialize courseName to null
+	    String sql = "SELECT course_name FROM courses WHERE course_id = ?";
+
+	    try (Connection conn = DatabaseConnection.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, courseId); // Set the courseId parameter
+	        ResultSet rs = stmt.executeQuery();
+
+	        // If the course exists, set the courseName
+	        if (rs.next()) {
+	            courseName = rs.getString("course_name");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return courseName; // Return the course name or null if not found
+	}
+
 }

@@ -11,9 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.*;
 import DAO.*;
-@WebServlet("/SubjectCoursesServlet")
-public class SubjectCoursesServlet extends HttpServlet {
-
+@WebServlet("/TeacherCourseServlet")
+public class TeacherCourseServlet extends HttpServlet {
     /**
 	 * 
 	 */
@@ -21,9 +20,12 @@ public class SubjectCoursesServlet extends HttpServlet {
 
 	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int subjectId = Integer.parseInt(request.getParameter("subjectId"));
-        int studentId = Integer.parseInt(request.getParameter("studentId"));
-        int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+		System.out.println(request.getParameter("subjectId"));
+        System.out.println(request.getParameter("teacherid"));
+		int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+       
+        int teacherid = Integer.parseInt(request.getParameter("teacherid"));
+        System.out.println("teacher id is "+teacherid);
         // Fetch courses for the subject
         CourseDAO courseDAO = new CourseDAO();
         List<CourseModel> courses = courseDAO.getCoursesBySubjectId(subjectId);
@@ -31,8 +33,8 @@ public class SubjectCoursesServlet extends HttpServlet {
         // Set courses as a request attribute
         request.setAttribute("courses", courses);
         request.setAttribute("subjectId", subjectId);  // Optionally pass subjectId to the next page
-        request.setAttribute("studentId", studentId);
-        request.setAttribute("teacherId", teacherId);        // Forward to the courses JSP page
-        request.getRequestDispatcher("SubjectCourses.jsp").forward(request, response);
+    
+        request.setAttribute("teacherId", teacherid);        // Forward to the courses JSP page
+        request.getRequestDispatcher("teachercourseServlet.jsp").forward(request, response);
     }
 }

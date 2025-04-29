@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 
 import DAO.DatabaseConnection;
 
@@ -120,8 +121,8 @@ public class AssignmentModel {
 
 
 
-	public void setDeadline(String deadline) {
-		this.deadline = deadline;
+	public void setDeadline(String deadlineDate) {
+		this.deadline = deadlineDate;
 	}
 
 
@@ -144,27 +145,5 @@ public class AssignmentModel {
 
 
 
-	public  AssignmentModel getAssignmentById(int assignmentId) {
-        String query = "SELECT * FROM assignments WHERE assignment_id = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, assignmentId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                this.assignmentId = rs.getInt("assignment_id");
-                this.courseId = rs.getInt("course_id");
-                this.title = rs.getString("title");
-                this.description = rs.getString("description");
-                this.deadline = rs.getString("deadline");
-
-               
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return this;
-    }
-
-
-
+	
 }

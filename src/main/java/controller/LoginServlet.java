@@ -10,14 +10,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
-    /**
-	 *  this is a comment
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // Handle POST requests for login
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -27,33 +26,38 @@ public class LoginServlet extends HttpServlet {
         // Get user ID using email and password
         int userId = userDAO.getUserIdByEmailAndPassword(email, password);
         System.out.print(userId);
-        if (userId != 0) {System.out.print("found student");
-            // If a user is found with the given email and password, redirect to the appropriate dashboard
-            request.setAttribute("userId", userId); // Save the user ID in the session
 
-            // Fetch user role (optional, you can fetch role here to direct to the appropriate dashboard)
+        if (userId != 0) { // User found
+            System.out.print("found ");
+            // Fetch user details (like role) after successful login
             User user = userDAO.login(email, password);
             String role = user.getRole();
             
+            // Set the user ID in the request
+            request.setAttribute("userId", userId);
+
             if ("student".equals(role)) {
-                // Redirect to the student dashboard
-                StudentServlet studentServlet = new StudentServlet();
-                
-                studentServlet.loadStudentDashboard(userId, request, response);
+                System.out.print("student ");
+                // Redirect to the student dashboard servlet
+                response.sendRedirect("StudentServlet?studentId=" + userId);
+
             } else if ("teacher".equals(role)) {
                 // Handle teacher dashboard redirection
-                TeacherServlet teacherServlet = new TeacherServlet();
-
-                teacherServlet.loadTeacherDashboard(userId, request, response);
- 
+                response.sendRedirect("TeacherServlet?teacherId=" + userId);
 
             } else {
-                response.sendRedirect("error.jsp"); // Handle invalid role
-            }}
-        
+                // Handle cases where the role is invalid or not found
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+            }
+
+        } else {
+            // If the user is not found, redirect to an error page or show an error message
+            response.sendRedirect("login.jsp?error=invalid_credentials");
+        }
     }
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    // Handle GET requests (typically when navigating to the login page)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Forward to login page if GET request is made
         RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
         dispatcher.forward(request, response);

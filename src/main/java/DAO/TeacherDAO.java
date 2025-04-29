@@ -47,27 +47,7 @@ public class TeacherDAO {
         }
     }
 
-    public List<TeacherModel> getAllTeachers() {
-        List<TeacherModel> teachers = new ArrayList<>();
-        String query = "SELECT * FROM teachers";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-
-            while (rs.next()) {
-                TeacherModel teacher = new TeacherModel();
-                teacher.setTeacherId(rs.getInt("teacher_id"));
-                teacher.setName(rs.getString("name"));
-                teacher.setDepartment(rs.getString("department"));
-                teachers.add(teacher);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return teachers;
-    }
+  
 
     public TeacherModel getTeacherById(int teacherId) {
         TeacherModel teacher = new TeacherModel();
@@ -92,38 +72,8 @@ public class TeacherDAO {
         return teacher;
     }
 
-    public boolean updateTeacher(int teacherId, String name, String department) {
-        String query = "UPDATE teachers SET name = ?, department = ? WHERE teacher_id = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setString(1, name);
-            stmt.setString(2, department);
-            stmt.setInt(3, teacherId);
-
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean deleteTeacher(int teacherId) {
-        String query = "DELETE FROM teachers WHERE teacher_id = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setInt(1, teacherId);
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+ 
+ 
     
     public List<StudentModel> getStudentsByTeacherAndSubject(int teacherId, int subjectId) {
     	System.out.println("/n ");
@@ -194,4 +144,6 @@ public class TeacherDAO {
         }
     
 
+        
+        
     }
