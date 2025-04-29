@@ -14,13 +14,14 @@ import java.nio.file.*;
 
 @WebServlet("/SubmitAssignmentServlet")
 @MultipartConfig  // Required for file upload
+
 public class SubmitAssignmentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int studentId = Integer.parseInt(request.getParameter("studentId"));
         int assignmentId = Integer.parseInt(request.getParameter("assignmentId"));
-        
+      
         // Handle file upload (submission)
         Part filePart = request.getPart("submission");
         
@@ -48,8 +49,8 @@ public class SubmitAssignmentServlet extends HttpServlet {
             boolean updated = assignmentDAO.updateAssignmentSubmission(studentId, assignmentId, uploadPath);
 
             if (updated) {
-                // Redirect to a success page
-                response.sendRedirect("message.jsp?message=Submission Successful");
+                // Redirect to the StudentServlet to load the dashboard after successful submission
+                response.sendRedirect("StudentServlet?studentId=" + studentId);
             } else {
                 // Handle failure to update the submission
                 response.sendRedirect("message.jsp?message=Submission Failed");
@@ -60,3 +61,4 @@ public class SubmitAssignmentServlet extends HttpServlet {
         }
     }
 }
+

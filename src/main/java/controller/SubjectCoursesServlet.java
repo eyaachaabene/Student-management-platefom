@@ -13,7 +13,6 @@ import model.*;
 import DAO.*;
 @WebServlet("/SubjectCoursesServlet")
 public class SubjectCoursesServlet extends HttpServlet {
-
     /**
 	 * 
 	 */
@@ -23,16 +22,19 @@ public class SubjectCoursesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int subjectId = Integer.parseInt(request.getParameter("subjectId"));
         int studentId = Integer.parseInt(request.getParameter("studentId"));
-        int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+        
         // Fetch courses for the subject
         CourseDAO courseDAO = new CourseDAO();
         List<CourseModel> courses = courseDAO.getCoursesBySubjectId(subjectId);
-
+        SubjectDAO subjectDAO=new SubjectDAO();
+        SubjectModel subject=subjectDAO.getSubjectById(subjectId);
         // Set courses as a request attribute
         request.setAttribute("courses", courses);
+      
+        request.setAttribute("subjectName", subject.getSubjectName());
         request.setAttribute("subjectId", subjectId);  // Optionally pass subjectId to the next page
         request.setAttribute("studentId", studentId);
-        request.setAttribute("teacherId", teacherId);        // Forward to the courses JSP page
+             // Forward to the courses JSP page
         request.getRequestDispatcher("SubjectCourses.jsp").forward(request, response);
     }
 }

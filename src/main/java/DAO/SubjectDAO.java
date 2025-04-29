@@ -135,6 +135,35 @@ public class SubjectDAO {
         }
         return subjects;
     }
+    // Method to get a subject by subjectId
+    public SubjectModel getSubjectById(int subjectId) {
+        SubjectModel subject = null;
 
+        // SQL query to get subject details by subjectId
+        String query = "SELECT * FROM subjects WHERE subject_id = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            // Set the subjectId parameter
+            statement.setInt(1, subjectId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                // Check if the subject exists
+                if (resultSet.next()) {
+                    // Create a new SubjectModel object with the fetched data
+                    subject = new SubjectModel(
+                        resultSet.getInt("subject_id"),
+                        resultSet.getString("subject_name")
+                       
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return subject;
+    }
 }
 

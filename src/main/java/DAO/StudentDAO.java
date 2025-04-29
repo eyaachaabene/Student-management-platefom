@@ -9,10 +9,46 @@ import model.CourseModel;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import DAO.DatabaseConnection;
 public class StudentDAO {
+	public StudentModel getStudentById(int studentId) {
+        StudentModel student = null;
+
+        // Corrected SQL query with the JOIN between students and users table
+        String query = "SELECT s.student_id, s.username, s.date_of_birth, s.level, u.email, u.password, u.address " +
+                       "FROM students s " +
+                       "JOIN users u ON s.student_id = u.id " +
+                       "WHERE s.student_id = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            // Set the studentId parameter
+            statement.setInt(1, studentId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                // Check if a student with the given ID exists
+                if (resultSet.next()) {
+                    // Create a StudentModel object with the retrieved data
+                    student = new StudentModel(
+                        resultSet.getInt("student_id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("username"),  // This corresponds to the student's name
+                        resultSet.getString("date_of_birth"),
+                        resultSet.getString("address"),
+                        resultSet.getString("level")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return student;
+    }
     // Sign Up (Insert Student)
-	
+
 	public boolean insertStudent(int userId, String username,   Date dob, String level) {
 	    String query = "INSERT INTO students (student_id, username, date_of_birth, level) VALUES (?, ?, ?, ?)";
 

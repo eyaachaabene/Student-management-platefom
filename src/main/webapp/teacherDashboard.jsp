@@ -231,8 +231,9 @@
            } else { %>
             <tr><td colspan="3">No subjects assigned.</td></tr>
         <% } %>
+       
         </tbody>
-    </table>
+    </table> <br><br><a class="button" href="login.jsp">Logout</a>
 </div>
 
 </body>

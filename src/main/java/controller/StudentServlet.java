@@ -3,6 +3,7 @@ package controller;
 import DAO.StudentDAO;
 import DAO.SubjectDAO;
 import model.AssignmentModel;
+import model.StudentModel;
 import model.SubjectModel;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -22,10 +23,9 @@ public class StudentServlet extends HttpServlet {
     // Move the logic of loading the dashboard into the doGet method
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get the studentId from the request parameters or session
+        // Get the studentId from the request parameters
         String studentIdParam = request.getParameter("studentId");
         if (studentIdParam == null) {
-            // Handle error or redirect if studentId is missing
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing studentId parameter.");
             return;
         }
@@ -33,24 +33,27 @@ public class StudentServlet extends HttpServlet {
         try {
             int studentId = Integer.parseInt(studentIdParam);
 
-            // Fetch the subjects and assignments for the student
+            // Fetch the student's name and level, along with their subjects and assignments
             StudentDAO studentDAO = new StudentDAO();
             SubjectDAO subjectDAO = new SubjectDAO();
-            
+
+            // Retrieve the student's details (name and level)
+            StudentModel student = studentDAO.getStudentById(studentId);
             List<SubjectModel> subjects = subjectDAO.getSubjectsByStudentId(studentId); // Fetch subjects
             List<AssignmentModel> assignments = studentDAO.getAssignmentsByStudentId(studentId); // Fetch assignments
-            
-            // Set the subjects, assignments, and studentId as request attributes
+
+            // Set the attributes for the student, subjects, and assignments
+            request.setAttribute("studentID", studentId);
+            request.setAttribute("studentName", student.getName());
+            request.setAttribute("studentLevel", student.getLevel());
             request.setAttribute("subjects", subjects);
             request.setAttribute("assignments", assignments);
-            request.setAttribute("studentID", studentId);
 
-            // Forward the request to the Dashboard.jsp page
+            // Forward to Dashboard.jsp
             RequestDispatcher dispatcher = request.getRequestDispatcher("Dashboard.jsp");
             dispatcher.forward(request, response);
 
         } catch (NumberFormatException e) {
-            // Handle invalid studentId format
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid studentId format.");
         }
     }
