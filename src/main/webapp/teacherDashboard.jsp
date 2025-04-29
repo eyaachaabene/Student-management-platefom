@@ -62,8 +62,8 @@
                 <td><%= subject.getSubjectName() %></td>
                 <td>
                     <!-- Action buttons for each subject -->
-                    <a class="button" href="TeacherServlet?action=viewCourses&subjectId=<%= subject.getSubjectId() %>">View Courses</a>
-                    <a class="button" href="TeacherServlet?action=markAttendance&subjectId=<%= subject.getSubjectId() %>">Mark Attendance</a>
+                    <a class="button" href="Teacherviewcoursesservlet?teacherid=<%= teacher.getTeacherId() %>&subjectId=<%= subject.getSubjectId() %>">View Courses</a>
+                    <a class="button" href="TeacherMarkAttendanceServlet?teacherid=<%= teacher.getTeacherId() %>&subjectId=<%= subject.getSubjectId() %>">Mark Attendance</a>
                 </td>
             </tr>
     <%    }

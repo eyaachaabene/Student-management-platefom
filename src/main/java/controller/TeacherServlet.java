@@ -73,6 +73,7 @@ public class TeacherServlet extends HttpServlet {
 
     public void loadTeacherDashboard(int userId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Loading teacher dashboard for userId: " + userId);
+        
          TeacherDAO teacherDAO=new TeacherDAO();
          SubjectDAO subjectDAO = new SubjectDAO();
         TeacherModel teacher = teacherDAO.getTeacherById(userId);

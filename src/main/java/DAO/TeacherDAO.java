@@ -1,5 +1,6 @@
 package DAO;
 
+import model.StudentModel;
 import model.TeacherModel;
 import java.sql.*;
 import java.util.ArrayList;
@@ -123,4 +124,74 @@ public class TeacherDAO {
         }
         return false;
     }
-}
+    
+    public List<StudentModel> getStudentsByTeacherAndSubject(int teacherId, int subjectId) {
+    	System.out.println("/n ");
+    	System.out.println(teacherId);
+    	System.out.println(subjectId);
+        List<StudentModel> students = new ArrayList<>();
+        String sql = "SELECT s.student_id, s.username, u.email, u.password, u.address, s.level " +
+                "FROM students s " +
+                "JOIN subject_student ss ON s.student_id = ss.student_id " +
+                "JOIN subjects sub ON ss.subject_id = sub.subject_id " +
+                "JOIN users u ON s.student_id = u.id " +  // Join users table correctly
+                "WHERE ss.subject_id = ? AND sub.teacher_id = ?;";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, subjectId);
+            stmt.setInt(2, teacherId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                // Create the student object with the values from the database
+            	System.out.println(rs.getInt("student_id"));
+                StudentModel student = new StudentModel(
+                    rs.getInt("student_id"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getString("username"),  
+                    null,                       
+                    rs.getString("address"),
+                    rs.getString("level")
+                );
+                students.add(student);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return students;
+    }
+ 
+        // Method to mark attendance
+        public void markAttendance(int teacherId, int subjectId, int studentId, boolean isPresent) {
+            // Step 1: Fetch the ss_id from the subject_student table
+            String ssIdSql = "SELECT ss.ss_id FROM subject_student ss " +
+                             "WHERE ss.subject_id = ? AND ss.student_id = ?";
+
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(ssIdSql)) {
+
+                stmt.setInt(1, subjectId);
+                stmt.setInt(2, studentId);
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    int ssId = rs.getInt("ss_id");  // Fetch the ss_id
+
+                    // Step 2: Insert into the attendance table with the ss_id and current time
+                    String insertSql = "INSERT INTO attendance (ss_id, att_time) VALUES (?, ?)";
+                    try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                        insertStmt.setInt(1, ssId);  // Use ss_id from subject_student
+                        insertStmt.setTimestamp(2, new java.sql.Timestamp(System.currentTimeMillis()));  // Current time for att_time
+                        insertStmt.executeUpdate();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    
+
+    }
