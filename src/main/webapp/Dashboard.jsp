@@ -50,66 +50,40 @@
     </tbody>
 </table>
 <h2>Your Subjects</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Subject</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% 
-                List<SubjectModel> subjects = (List<SubjectModel>) request.getAttribute("subjects");
-                if (subjects != null && !subjects.isEmpty()) {
-                    for (SubjectModel subject : subjects) {
-            %>
-            <tr>
-                <td><%= subject.getSubjectName() %></td>
-                <td>
-                    <!-- Link to view the courses related to this subject -->
-                    <a href="SubjectCoursesServlet?subjectId=<%= subject.getSubjectId() %>&studentId=<%= request.getAttribute("studentID") %>">View Courses</a>
-                </td>
-            </tr>
-            <%   
-                    }
-                } else {
-            %>
-            <tr>
-                <td colspan="2">No subjects found for this student.</td>
-            </tr>
-            <% } %>
-        </tbody>
-    </table>
-
-   <h2>Courses</h2>
-    <table border="1">
+<table>
+    <thead>
         <tr>
-            <th>Course Name</th>
+            <th>Subject</th>
             <th>Action</th>
         </tr>
+    </thead>
+    <tbody>
+        <%
+            List<SubjectModel> subjects = (List<SubjectModel>) request.getAttribute("subjects");
+            Integer studentId = (Integer) request.getAttribute("studentID");
 
-        <% 
-            List<CourseModel> courses = (List<CourseModel>) request.getAttribute("courses");
-            if (courses != null && !courses.isEmpty()) {
-                for (CourseModel course : courses) {
+            if (subjects != null && !subjects.isEmpty() && studentId != null) {
+                for (SubjectModel subject : subjects) {
         %>
         <tr>
-            <td><%= course.getCourseName() %></td>
-           
+            <td><%= subject.getSubjectName() %></td>
             <td>
-                <!-- Link to view the PDF -->
-                <a href="ViewCoursePdf?courseId=<%= course.getCourseId() %>">View PDF</a>
+                <a href="SubjectCoursesServlet?subjectId=<%= subject.getSubjectId() %>&studentId=<%= studentId %>">View Courses</a>
             </td>
         </tr>
-        <% 
+        <%
                 }
             } else {
         %>
         <tr>
-            <td colspan="2">No courses found for this student.</td>
+            <td colspan="2">No subjects found for this student.</td>
         </tr>
-        <% } %>
-    </table>
+        <% 
+            }
+        %>
+    </tbody>
+</table>
+  
 
     <!-- Display error message if any -->
     <% 

@@ -14,7 +14,12 @@ public class CourseModel {
         this.pdfPath = pdfPath;
     }
 
-    // Getters and setters
+    public CourseModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	// Getters and setters
     public int getCourseId() {
         return courseId;
     }

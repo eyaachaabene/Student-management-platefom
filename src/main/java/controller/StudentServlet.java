@@ -1,8 +1,9 @@
 package controller;
 
 import DAO.StudentDAO;
+import DAO.SubjectDAO;
 import model.AssignmentModel;
-import model.CourseModel;
+
 import model.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -25,8 +26,8 @@ public class StudentServlet extends HttpServlet {
     public void loadStudentDashboard(int studentId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Fetch the courses and assignments for the student
         StudentDAO studentDAO = new StudentDAO();
-        
-        List<SubjectModel> subjects = studentDAO.getSubjectsByStudentId(studentId); // Fetch subjects
+        SubjectDAO subjectDAO=new SubjectDAO();
+        List<SubjectModel> subjects = subjectDAO.getSubjectsByStudentId(studentId); // Fetch subjects
         List<AssignmentModel> assignments = studentDAO.getAssignmentsByStudentId(studentId);
 
         // Set courses and assignments as request attributes

@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
     /**
-	 * 
+	 *  this is a comment
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -52,6 +52,7 @@ public class LoginServlet extends HttpServlet {
             }}
         
     }
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Forward to login page if GET request is made
         RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");

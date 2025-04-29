@@ -8,31 +8,30 @@ import java.sql.SQLException;
 
 public class CourseDAO {
 
-	public List<CourseModel> getCoursesBySubjectAndStudent(int subjectId, int studentId) {
-	    List<CourseModel> courses = new ArrayList<>();
-	    String query = "SELECT c.course_id, c.course_name, c.course_description, c.pdf_path " +
-	                   "FROM courses c " +
-	                   "JOIN student_courses sc ON c.course_id = sc.course_id " +
-	                   "WHERE c.subjectid = ? AND sc.student_id = ?";
-	    
-	    try (Connection conn = DatabaseConnection.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement(query)) {
-	        stmt.setInt(1, subjectId);
-	        stmt.setInt(2, studentId);
+	public List<CourseModel> getCoursesBySubjectId(int subjectId) {
+        List<CourseModel> courses = new ArrayList<>();
+        String sql = "SELECT course_id, course_name, course_description, pdf_path " +
+                     "FROM courses " +
+                     "WHERE subjectid = ?";
 
-	        ResultSet resultSet = stmt.executeQuery();
-	        while (resultSet.next()) {
-	            courses.add(new CourseModel(
-	                    resultSet.getInt("course_id"),
-	                    resultSet.getString("course_name"),
-	                    resultSet.getString("course_description"),
-	                    resultSet.getString("pdf_path")
-	            ));
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return courses;
-	}
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            stmt.setInt(1, subjectId); // Set the subjectId parameter
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                CourseModel course = new CourseModel();
+                course.setCourseId(rs.getInt("course_id"));
+                course.setCourseName(rs.getString("course_name"));
+                course.setCoursedescription(rs.getString("course_description"));
+                course.setPdfPath(rs.getString("pdf_path"));
+                courses.add(course);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return courses;
+    }
 }

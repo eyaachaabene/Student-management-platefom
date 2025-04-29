@@ -26,12 +26,12 @@ public class SubjectCoursesServlet extends HttpServlet {
 
         // Fetch courses for the subject
         CourseDAO courseDAO = new CourseDAO();
-        List<CourseModel> courses = courseDAO.getCoursesBySubjectAndStudent(subjectId, studentId);
+        List<CourseModel> courses = courseDAO.getCoursesBySubjectId(subjectId);
 
         // Set courses as a request attribute
         request.setAttribute("courses", courses);
         request.setAttribute("subjectId", subjectId);  // Optionally pass subjectId to the next page
-
+        request.setAttribute("studentId", studentId);
         // Forward to the courses JSP page
         request.getRequestDispatcher("SubjectCourses.jsp").forward(request, response);
     }

@@ -106,4 +106,35 @@ public class SubjectDAO {
         }
         return false;
     }
+
+    
+    public List<SubjectModel> getSubjectsByStudentId(int studentId) {
+    	
+        List<SubjectModel> subjects = new ArrayList<>();
+        String sql = "SELECT s.subject_id, s.subject_name " +
+                     "FROM subject_student ss " +
+                     "JOIN subjects s ON ss.subject_id = s.subject_id " +
+                     "WHERE ss.student_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, studentId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	
+                SubjectModel subject = new SubjectModel();
+                subject.setSubjectId(rs.getInt("subject_id"));
+                
+                subject.setSubjectName(rs.getString("subject_name")); // Make sure your SubjectModel has subjectName field
+                subjects.add(subject);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return subjects;
+    }
+
 }
+
