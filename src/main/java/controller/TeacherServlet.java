@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 @WebServlet("/TeacherServlet")
 public class TeacherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -68,7 +69,7 @@ public class TeacherServlet extends HttpServlet {
         // Set the teacher and subjects as request attributes
         request.setAttribute("teacher", teacher);
         request.setAttribute("subjects", subjects);
-
+        request.setAttribute("teacherid", teacherId);
         // Forward the request to the teacher dashboard JSP
         RequestDispatcher dispatcher = request.getRequestDispatcher("teacherDashboard.jsp");
         dispatcher.forward(request, response);

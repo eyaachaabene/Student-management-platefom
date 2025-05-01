@@ -102,6 +102,14 @@
         .signup-link a:hover {
             text-decoration: underline;
         }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -117,7 +125,10 @@
             </div>
 
             <div class="signup-title">Sign Up</div>
-            
+                <div class="error-message" 
+                 style="display: ${param.error != null ? 'block' : 'none'};">
+                ${param.error}
+            </div>
             <!-- Sign-Up Form -->
             <form action="signupProcess" method="POST">
                 <div class="form-group">

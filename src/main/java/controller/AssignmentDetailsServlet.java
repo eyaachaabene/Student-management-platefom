@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
-
 @WebServlet("/AssignmentDetailsServlet")
 public class AssignmentDetailsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -16,6 +15,7 @@ public class AssignmentDetailsServlet extends HttpServlet {
         // Retrieve assignmentId and studentId from the request parameters
         String assignmentIdParam = request.getParameter("assignmentId");
         String studentIdParam = request.getParameter("studentId");
+        String errorMessage = request.getParameter("error");  // Retrieve the error message from the query parameter
 
         // Validate parameters
         if (assignmentIdParam == null || studentIdParam == null) {
@@ -39,6 +39,7 @@ public class AssignmentDetailsServlet extends HttpServlet {
             // Set assignment and student ID as request attributes
             request.setAttribute("assignment", assignmentModel);
             request.setAttribute("studentID", studentId);
+            request.setAttribute("error", errorMessage);  // Pass the error message to the JSP
 
             // Forward the request to the assignment details JSP
             request.getRequestDispatcher("AssignmentDetails.jsp").forward(request, response);

@@ -40,7 +40,6 @@ public class LoginServlet extends HttpServlet {
                 System.out.print("student ");
                 // Redirect to the student dashboard servlet
                 response.sendRedirect("StudentServlet?studentId=" + userId);
-
             } else if ("teacher".equals(role)) {
                 // Handle teacher dashboard redirection
                 response.sendRedirect("TeacherServlet?teacherId=" + userId);

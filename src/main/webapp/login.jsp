@@ -97,7 +97,14 @@
         }
 
         .signup-link a:hover {
-            text-decoration: underline;
+            text-decoration: underline;}
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -112,7 +119,11 @@
                     style="max-width: 100%; height: 80px; object-fit: contain;"
                 />
             </div>
-
+ <!-- Check if there is an error query parameter and display it -->
+            <div class="error-message" 
+                 style="display: ${param.error != null ? 'block' : 'none'};">
+                ${param.error}
+            </div>
             <div class="login-title">Login</div>
             
             <form action="LoginServlet" method="post">

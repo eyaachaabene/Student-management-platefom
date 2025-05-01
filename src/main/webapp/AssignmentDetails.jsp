@@ -96,6 +96,14 @@
         .logout-btn:hover {
             background-color: #2db54d;
         }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -108,6 +116,10 @@
             <p><strong>Description:</strong> <%= assignment.getDescription() %></p>
             <p><strong>Deadline:</strong> <%= assignment.getDeadline() %></p>
         </div>
+    <!-- Display error message if exists -->
+    <div class="error-message" style="display: ${not empty error ? 'block' : 'none'};">
+        ${error}
+    </div>
 
         <!-- Form to Submit Assignment -->
         <h2>Submit Your Assignment</h2>
@@ -128,6 +140,8 @@
 
         <!-- Logout Button -->
         <a href="login.jsp" class="logout-btn">Logout</a>
+        <!-- Back to Dashboard Button -->
+        <a href="StudentServlet?studentId=<%= request.getParameter("studentId") %>" class="logout-btn">Back to Dashboard</a>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

@@ -52,9 +52,9 @@ public class TeacherMarkAttendanceServlet extends HttpServlet {
             teacherDAO.markAttendance(teacherId, subjectId, studentId, isPresent);
         }
 
-        TeacherServlet teacherServlet = new TeacherServlet();
+        
 
-        teacherServlet.loadTeacherDashboard(teacherId, request, response);
+        response.sendRedirect("TeacherServlet?teacherId=" + teacherId);
     }
 
 }

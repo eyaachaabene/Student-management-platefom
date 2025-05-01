@@ -15,7 +15,8 @@ public class AssignmentDAO {
 		 String query = "SELECT a.assignment_id, a.title, a.description, a.deadline " +
                  "FROM student_assignments sa " +
                  "JOIN assignments a ON sa.assignment_id = a.assignment_id " +
-                 "WHERE sa.student_id = ?";
+                 "WHERE sa.student_id = ? "
+                 + "AND a.deadline > CURDATE()";
         List<AssignmentModel> assignments = new ArrayList<>();
 
         try (Connection connection = DatabaseConnection.getConnection();
